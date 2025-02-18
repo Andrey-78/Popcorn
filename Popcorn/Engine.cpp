@@ -1,4 +1,4 @@
-#include "Engine.h"
+п»ї#include "Engine.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -28,8 +28,8 @@ const int Cell_Width = 16;
 const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
-const int Level_Width = 14;  // Ширина уровня в ячейках
-const int Level_Height = 12;  // Высота уровня в ячейках
+const int Level_Width = 14;  // РЁРёСЂРёРЅР° СѓСЂРѕРІРЅСЏ РІ СЏС‡РµР№РєР°С…
+const int Level_Height = 12;  // Р’С‹СЃРѕС‚Р° СѓСЂРѕРІРЅСЏ РІ СЏС‡РµР№РєР°С…
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
@@ -81,7 +81,7 @@ void Redraw_Platform()
 }
 //------------------------------------------------------------------------------------------------------------
 void Init_Engine(HWND hwnd)
-{// Настройка игры при старте
+{// РќР°СЃС‚СЂРѕР№РєР° РёРіСЂС‹ РїСЂРё СЃС‚Р°СЂС‚Рµ
 
 	Hwnd = hwnd;
 
@@ -103,7 +103,7 @@ void Init_Engine(HWND hwnd)
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
-{// Вывод "кирпича"
+{// Р’С‹РІРѕРґ "РєРёСЂРїРёС‡Р°"
 
 	HPEN pen;
 	HBRUSH brush;
@@ -154,11 +154,11 @@ void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& fron
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
-{// Вывод падающей буквы
+{// Р’С‹РІРѕРґ РїР°РґР°СЋС‰РµР№ Р±СѓРєРІС‹
 
 	bool switch_color;
 	double offset;
-	double rotation_angle;  // Преобразование шага в угол поворота
+	double rotation_angle;  // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ С€Р°РіР° РІ СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р°
 	int brick_half_height = Brick_Height * Global_Scale / 2;
 	int back_part_offset;
 	HPEN front_pen, back_pen;
@@ -166,9 +166,9 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 	XFORM xform, old_xform;
 
 	if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
-		return;  // Падающие буквы могут быть только от кирпичей такого типа
+		return;  // РџР°РґР°СЋС‰РёРµ Р±СѓРєРІС‹ РјРѕРіСѓС‚ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РѕС‚ РєРёСЂРїРёС‡РµР№ С‚Р°РєРѕРіРѕ С‚РёРїР°
 
-	// Корректируем шаг вращения и угол поворота
+	// РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј С€Р°Рі РІСЂР°С‰РµРЅРёСЏ Рё СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р°
 	rotation_step = rotation_step % 16;
 
 	if (rotation_step < 8)
@@ -196,13 +196,13 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 
 	if (rotation_step == 4 || rotation_step == 12)
 	{
-		// Выводим фон
+		// Р’С‹РІРѕРґРёРј С„РѕРЅ
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
 		Rectangle(hdc, x, y + brick_half_height - Global_Scale, x + Brick_Width * Global_Scale, y + brick_half_height);
 
-		// Выводим передний план
+		// Р’С‹РІРѕРґРёРј РїРµСЂРµРґРЅРёР№ РїР»Р°РЅ
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 
@@ -212,7 +212,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 	{
 		SetGraphicsMode(hdc, GM_ADVANCED);
 
-		// Настраиваем матрицу "переворота" буквы
+		// РќР°СЃС‚СЂР°РёРІР°РµРј РјР°С‚СЂРёС†Сѓ "РїРµСЂРµРІРѕСЂРѕС‚Р°" Р±СѓРєРІС‹
 		xform.eM11 = 1.0f;
 		xform.eM12 = 0.0f;
 		xform.eM21 = 0.0f;
@@ -222,7 +222,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 		GetWorldTransform(hdc, &old_xform);
 		SetWorldTransform(hdc, &xform);
 	
-		// Выводим фон
+		// Р’С‹РІРѕРґРёРј С„РѕРЅ
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
@@ -230,7 +230,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 		back_part_offset = (int)round(offset);
 		Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * Global_Scale, brick_half_height - back_part_offset);
 
-		// Выводим передний план
+		// Р’С‹РІРѕРґРёРј РїРµСЂРµРґРЅРёР№ РїР»Р°РЅ
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 
@@ -250,7 +250,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Level(HDC hdc)
-{// Вывод всех кирпичей уровня
+{// Р’С‹РІРѕРґ РІСЃРµС… РєРёСЂРїРёС‡РµР№ СѓСЂРѕРІРЅСЏ
 
 	int i, j;
 
@@ -260,27 +260,27 @@ void Draw_Level(HDC hdc)
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Platform(HDC hdc, int x, int y)
-{// Рисуем платформу
+{// Р РёСЃСѓРµРј РїР»Р°С‚С„РѕСЂРјСѓ
 
 	SelectObject(hdc, BG_Pen);
 	SelectObject(hdc, BG_Brush);
 
 	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
 
-	// 1. Рисуем боковые шарики
+	// 1. Р РёСЃСѓРµРј Р±РѕРєРѕРІС‹Рµ С€Р°СЂРёРєРё
 	SelectObject(hdc, Platform_Circle_Pen);
 	SelectObject(hdc, Platform_Circle_Brush);
 
 	Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + Circle_Size) * Global_Scale, (y + Circle_Size) * Global_Scale);
 	Ellipse(hdc, (x + Inner_Width) * Global_Scale, y * Global_Scale, (x + Circle_Size + Inner_Width) * Global_Scale, (y + Circle_Size) * Global_Scale);
 
-	// 2. Рисуем блик
+	// 2. Р РёСЃСѓРµРј Р±Р»РёРє
 	SelectObject(hdc, Highlight_Pen);
 
 	Arc(hdc, (x + 1) * Global_Scale, (y + 1) * Global_Scale, (x + Circle_Size - 1) * Global_Scale, (y + Circle_Size - 1) * Global_Scale,
 		(x + 1 + 1) * Global_Scale, (y + 1) * Global_Scale, (x + 1) * Global_Scale, (y + 1 + 2) * Global_Scale);
 
-	// 3. Рисуем среднюю часть
+	// 3. Р РёСЃСѓРµРј СЃСЂРµРґРЅСЋСЋ С‡Р°СЃС‚СЊ
 	SelectObject(hdc, Platform_Inner_Pen);
 	SelectObject(hdc, Platform_Inner_Brush);
 
@@ -288,7 +288,7 @@ void Draw_Platform(HDC hdc, int x, int y)
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Frame(HDC hdc, RECT &paint_area)
-{// Отрисовка экрана игры
+{// РћС‚СЂРёСЃРѕРІРєР° СЌРєСЂР°РЅР° РёРіСЂС‹
 
 	RECT intersection_rect;
 
