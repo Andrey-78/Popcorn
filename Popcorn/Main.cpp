@@ -95,8 +95,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-	Init();
-
 	RECT window_rect;
 	window_rect.left = 0;
 	window_rect.top = 0;
@@ -106,10 +104,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW, TRUE);
 
 	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, nullptr, nullptr, hInstance, nullptr);
+		0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, nullptr, nullptr, hInstance, nullptr);
 
    if (hWnd == 0)
       return FALSE;
+
+	Init_Engine(hWnd);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -140,25 +140,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
-            
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
-
-            case WM_KEYDOWN:                
-                switch (wParam) 
-                {
-                case VK_LEFT:
-                    On_Key_Down(EKT_Left);
-
-                case VK_RIGHT:
-                    On_Key_Down(EKT_Right);
-
-                case VK_SPACE:
-                    On_Key_Down(EKT_Space);
-                }
-                break;
-
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -171,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
-				Draw_Frame(hdc);
+				Draw_Frame(hdc, ps.rcPaint);
             EndPaint(hWnd, &ps);
         }
         break;
@@ -180,6 +164,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
+
+	 case WM_KEYDOWN:
+		 switch (wParam)
+		 {
+		 case VK_LEFT:
+			 return On_Key_Down(EKT_Left);
+
+		 case VK_RIGHT:
+			 return On_Key_Down(EKT_Right);
+
+		 case VK_SPACE:
+			 return On_Key_Down(EKT_Space);
+		 }
+		 break;
 
 
     default:
